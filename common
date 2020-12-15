@@ -1,0 +1,97 @@
+ Pod 豆荚 ： k8s 最小可部署单元
+ Container
+ Label
+ Replication Controller
+ Service
+ Node
+ Kubernetes Master
+ 
+ 安装：
+  使用kubeadmin 通过离线镜像安装
+  使用阿里云工友云平台K8S，钞能力
+  通过yum官方仓库安装，上古版本
+  二进制包的形式进行安装，kubeasz(github)
+  
+  
+  环境准备：
+    CentOS 7 Master * 1
+    CentOS 7 Node * 2
+    
+    1.  设置主机名与时区
+    timedatectl set-timezone Asia/Shanghai  #都要执行
+    hostnamectl set-hostname master   
+    hostnamectl set-hostname node1    
+    hostnamectl set-hostname node2   
+
+    2. 添加hosts网络主机配置,三台虚拟机都要设置
+    vim /etc/hosts
+    192.168.255.131 master
+    192.168.255.132 node1
+    192.168.255.133 node2
+
+    3. 关闭防火墙，三台虚拟机都要设置，生产环境跳过这一步
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    setenforce 0
+    systemctl disable firewalld
+    systemctl stop firewalld
+    
+   kubeadmin 加载k8s镜像： 
+   
+     1. 将镜像包上传至服务器每个节点
+    mkdir /usr/local/k8s-install
+    cd /usr/local/k8s-install
+    XFTP上传安装文件
+
+    2. 按每个Centos上安装Docker
+    tar -zxvf docker-ce-18.09.tar.gz
+    cd docker 
+    yum localinstall -y *.rpm
+    systemctl start docker
+    systemctl enable docker
+
+    3. 确保从cgroups均在同一个从groupfs
+    #cgroups是control groups的简称，它为Linux内核提供了一种任务聚集和划分的机制，通过一组参数集合将一些任务组织成一个或多个子系统。   
+    #cgroups是实现IaaS虚拟化(kvm、lxc等)，PaaS容器沙箱(Docker等)的资源管理控制部分的底层基础。
+    #子系统是根据cgroup对任务的划分功能将任务按照一种指定的属性划分成的一个组，主要用来实现资源的控制。
+    #在cgroup中，划分成的任务组以层次结构的形式组织，多个子系统形成一个数据结构中类似多根树的结构。cgroup包含了多个孤立的子系统，每一个子系统代表单一的资源
+
+    docker info | grep cgroup 
+
+    如果不是groupfs,执行下列语句
+
+    cat << EOF > /etc/docker/daemon.json
+    {
+      "exec-opts": ["native.cgroupdriver=cgroupfs"]
+    }
+    EOF
+    systemctl daemon-reload && systemctl restart docker
+
+    4. 安装kubeadm
+    # kubeadm是集群部署工具
+
+    cd /usr/local/k8s-install/kubernetes-1.14
+    tar -zxvf kube114-rpm.tar.gz
+    cd kube114-rpm
+    yum localinstall -y *.rpm
+
+    5. 关闭交换区
+    swapoff -a
+    vi /etc/fstab 
+    #swap一行注释
+
+    6. 配置网桥
+
+    cat <<EOF >  /etc/sysctl.d/k8s.conf
+    net.bridge.bridge-nf-call-ip6tables = 1
+    net.bridge.bridge-nf-call-iptables = 1
+    EOF
+    sysctl --system
+
+    7. 通过镜像安装k8s
+
+    cd /usr/local/k8s-install/kubernetes-1.14
+    docker load -i k8s-114-images.tar.gz
+    docker load -i flannel-dashboard.tar.gz
+
+
+    

@@ -1,10 +1,13 @@
- Pod 豆荚 ： k8s 最小可部署单元
+ Pod 豆荚 ： k8s 最小可部署单元 包多个container  每个pod中有一个pause --可以用来做数据卷，也可以连接各个container
  Container
- Label
- Replication Controller
- Service
- Node
- Kubernetes Master
+ Label   用于标识pod ，service 发现pod
+ Replication Controller  复制控制器
+ Service  服务发现
+ Node //可有多个pod 
+ Kubernetes Master  主服务器
+ 
+ 
+ 每个node 都必须有三个组件：kubelet  -- 用于执行k8s的命令  kube-proxy 代理 用于各个pod间的通信  docker--略过
  
  安装：
   使用kubeadmin 通过离线镜像安装

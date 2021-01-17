@@ -1,4 +1,4 @@
- Pod 豆荚 ： k8s 最小可部署单元 包多个container  每个pod中有一个pause --可以用来做数据卷，也可以连接各个container
+ Pod 豆荚 ： k8s 最小可部署单元 包多个container  每个pod中有一个pause --可以用来做数据卷，也可以用来网络命名空间的共享
  Container
  Label   用于标识pod ，service 发现pod
  Replication Controller  复制控制器

@@ -60,7 +60,7 @@
 
     docker info | grep cgroup 
 
-    如果不是groupfs,执行下列语句
+    如果不是groupfs,执行下列语句  *此处容易有坑
 
     cat << EOF > /etc/docker/daemon.json
     {
@@ -111,6 +111,8 @@
     #设置全局变量
     #安装flannel网络组件
     kubectl create -f kube-flannel.yml
+    
+    *此处有坑已解决：https://blog.csdn.net/baidu_38803985/article/details/105966464
 
 
 

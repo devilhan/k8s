@@ -112,17 +112,25 @@
     #安装flannel网络组件
     kubectl create -f kube-flannel.yml
     
-    *此处有坑已解决：https://blog.csdn.net/baidu_38803985/article/details/105966464
-
-
+    *此处有坑
+     flnnal
+     查看是否已配置hosts
+     查看flannel 日志：
+      kubectl get all --all-namespaces -o wide
+      kubectl logs -f coredns-56f56989d6-krs6h -n kube-system
 
     2. 加入NODE节点
     kubeadm join 192.168.4.130:6443 --token 911xit.xkp2gfxbvf5wuqz7 \
         --discovery-token-ca-cert-hash sha256:23db3094dc9ae1335b25692717c40e24b1041975f6a43da9f43568f8d0dbac72
+     
 
     如果忘记
     在master 上执行kubeadm token list 查看 ，在node上运行
     kubeadm join 192.168.163.132:6443 --token aoeout.9k0ybvrfy09q1jf6 --discovery-token-unsafe-skip-ca-verification
+    
+    如果过期
+    kubeadm token create
+    openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^*//
 
     kubectl get nodes
 

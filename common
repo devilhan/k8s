@@ -1,3 +1,9 @@
+ k8s用于管理云平台中多个主机上的容器化的应用，Kubernetes的目标是让部署容器化的应用简单并且高效（powerful）,Kubernetes提供了应用部署，规划，更新，维护的一种机制。
+ 
+ 比如用户想让应用一直运行，用户不需要关心怎么去做，Kubernetes会自动去监控，然后去重启，新建，总之，让应用一直提供服务
+ 
+ 文档地址：http://docs.kubernetes.org.cn/227.html
+ 
  Pod 豆荚 ： k8s 最小可部署单元 包多个container  每个pod中有一个pause --可以用来做数据卷，也可以用来网络命名空间的共享
  Container
  Label   用于标识pod ，service 发现pod
@@ -144,7 +150,17 @@
     使用dashboard 部署容器 eg. tomcat
     
     使用Deployment 脚本部署集群  eg. tomcat
-    
-    
+       支持yml格式部署脚本
+       常用命令：
+         kubectl create -f yml文件 #创建部署
+         kubectl apply -f yml文件  #更新部署配置
+         kubectl get pod [-o wide] #查看已部署pod
+         kubectl describe pod podName #查看pod详细信息
+         kubectl logs [-f] podName #查看pod输出日志
+         
+         
+         
+       
+     
     
     

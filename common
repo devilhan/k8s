@@ -141,4 +141,10 @@
     kubectl -n kube-system get svc
     http://192.168.163.132:32000 访问
 
-
+    使用dashboard 部署容器 eg. tomcat
+    
+    使用Deployment 脚本部署集群  eg. tomcat
+    
+    
+    
+    

@@ -158,7 +158,15 @@
          kubectl describe pod podName #查看pod详细信息
          kubectl logs [-f] podName #查看pod输出日志
          
-         
+    基于NFS文件集群共享：采用RPC机制实现文件传输
+      master 主节点：
+        yum install -y nfs-utils rpcbind
+        启动并设置开机启动：nfs & rpcbind
+        查看文件：exportfs
+     node 分节点：
+       只安装 nfs-utils即可 设置开机自启
+       查看对外共享文件夹：showmount -e master-ip
+       远程目录挂载：mount master-ip:master-file-path node-path
          
        
      

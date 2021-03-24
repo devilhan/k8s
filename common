@@ -168,7 +168,40 @@
        查看对外共享文件夹：showmount -e master-ip
        远程目录挂载：mount master-ip:master-file-path node-path
          
-       
+   查看已部署的：kubectl get deployment
+       修改deploymnet
+   
+   添加数据卷：
+   apiVersion: extensions/v1beta1
+   kind: Deployment
+   metadata:
+    name: tomcat-deploy
+   spec:
+    replicas: 2
+    template:
+     metadata:
+      labels:
+       app: tomcat-cluster
+     spec:
+      volumes:
+      - name: web-app
+        hostPath:
+          path: /mnt
+      containers:
+      - name: tomcat-cluster
+        image: tomcat:8
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: web-app
+          mountPath: /usr/local/tomcat/webapps
+        
+      service注释掉nodeport之后就可以直接使用8000端口进行service物理机访问，负载均衡
+      Rinted - 端口转发工具 重定向传输控制协议工具
+               可将源IP端口数据转发到目标IP端口
+               在k8s中用于将service 服务对外暴露
+      
+      
      
     
     

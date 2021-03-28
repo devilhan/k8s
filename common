@@ -202,6 +202,11 @@
                在k8s中用于将service 服务对外暴露
       
       
-     
+     远程下载rinetd安装包
+      修改rinetd.c文件，更改端口允许的范围  ：  sed -i 's/65536/65535/g' rinetd.c
+      
+      mkdir -p /usr/man/
+      
+      安装gcc  make && make install
     
     

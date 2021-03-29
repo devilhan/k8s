@@ -209,4 +209,21 @@
       
       安装gcc  make && make install
     
-    
+    集群配置调整与资源限定
+      k8s 部署调整命令：
+        更新集群配置
+          kubectl apply -f yml文件
+        删除部署（Deployment）|服务（service）
+          kubectl deleete deployment|service 部署|服务名称
+          
+      资源限定：
+        containers:
+         - name: tomcat-cluster
+          image: tomcat:latest
+          resources:
+           requests:    --需要的
+            cpu: 1
+            memory: 500Mi
+           limits:      --限定的
+            cpu: 2
+            memory: 1024Mi
